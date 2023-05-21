@@ -1,0 +1,32 @@
+{
+  "name": "mypet",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "db:reset": "npx -y tsc && npx sequelize-cli db:drop && sequelize-cli db:create && npx sequelize db:migrate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Benhurcarvalho/myPet.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Benhurcarvalho/myPet/issues"
+  },
+  "homepage": "https://github.com/Benhurcarvalho/myPet#readme",
+  "dependencies": {
+    "@types/sequelize": "^4.28.15",
+    "dotenv": "^16.0.3",
+    "sequelize": "^6.31.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4",
+    "mysql2": "^3.3.1"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.0"
+  }
+}
