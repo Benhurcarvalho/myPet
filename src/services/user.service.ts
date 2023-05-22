@@ -1,6 +1,7 @@
 import ClinicModel from "../database/models/ClinicModel";
 import UserModel, { UserAtributes, UserCreationalAtributes } from "../database/models/UserModel";
 import User from "../entities/User";
+import UserAdmin from "../entities/UserAdmin";
 import NotFoundError from "../errors/NotFoundError";
 
 class UserService {
@@ -8,14 +9,7 @@ class UserService {
         // pega id com o banco
         const id = await UserModel.getNextId();
         // valida o usuário através da class
-        const user = new User({
-            clinicId: inputUser.clinicId,
-            email: inputUser.email,
-            name: inputUser.name,
-            password: inputUser.password,
-            role: inputUser.role,
-            id,
-        })
+        const user = UserService.buildUser(id, inputUser)
         // persiste no banco
         const userCreate = await UserModel.create({
             clinicId: user.getClinicId(),
@@ -26,6 +20,19 @@ class UserService {
             id: user.getId(),
         });
         return userCreate.toJSON();
+    }
+
+    private static buildUser(id: number, inputUser: UserCreationalAtributes) {
+        if (inputUser.role === 'admin') {
+            return new UserAdmin({
+                ...inputUser,
+                id,
+            })
+        }
+        return new User({
+            ...inputUser,
+            id,
+        })
     }
 
     static async changePassword(id: number, password: string) {
