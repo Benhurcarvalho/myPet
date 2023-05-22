@@ -1,6 +1,7 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, Optional } from "sequelize";
 import sequelize from ".";
 import ClinicModel, { ClinicAtributes } from "./ClinicModel";
+import HelperModel from "./HelperModel";
 
 export interface UserAtributes {
   id: number;
@@ -12,7 +13,7 @@ export interface UserAtributes {
   clinic?: ClinicAtributes;
 }
 
-export type UserCreationalAtributes = Omit<UserAtributes, 'id'>;
+export type UserCreationalAtributes = Optional<UserAtributes, 'id'>;
 
 class UserModel extends Model<UserAtributes, UserCreationalAtributes> implements UserAtributes {
   declare id: number;
@@ -21,6 +22,12 @@ class UserModel extends Model<UserAtributes, UserCreationalAtributes> implements
   declare password: string;
   declare role: string;
   declare clinicId: number;
+
+  static getNextId() {
+    if (!UserModel.sequelize) throw new Error('Model não inicializado')
+
+    return HelperModel.getNextId('users', UserModel.sequelize);
+  }
 }
 
 UserModel.init({
