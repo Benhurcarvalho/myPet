@@ -27,10 +27,10 @@ app.post('/pets', PetMiddleware.validateCreate, async (req, res) => {
   return res.status(201).json(created);
 });
 
-// app.get('/pets', async (req, res) => {
-//   const pets = await PetService.findAll();
-//   return res.json(pets);
-// });
+app.get('/pets', async (req, res) => {
+  const pets = await PetService.findAll();
+  return res.json(pets);
+});
 
 app.get('/users', async (req, res) => {
   const users = await UserService.findAll();
